@@ -3,6 +3,8 @@ package auth
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/Terikyy/devops-lecture-project/pkg/jwt"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,7 +19,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// For simplicity, we'll use a hardcoded username and password
 	// This should be replaced with a proper authentication mechanism
 	if username == "user" && password == "pass" {
-		token, err := CreateToken(username)
+		token, err := jwt.CreateToken(username)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(`{"error": "Error generating the token"}`))

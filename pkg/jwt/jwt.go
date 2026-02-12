@@ -1,4 +1,4 @@
-package auth
+package jwt
 
 import (
 	"fmt"
@@ -29,6 +29,6 @@ func VerifyToken(tokenString string) bool {
 	return err == nil && token.Valid
 }
 
-func ExtractTokenFromHeader(authHeader string) string {
+func ExtractBearerToken(authHeader string) string {
 	return strings.TrimPrefix(authHeader, "Bearer ")
 }

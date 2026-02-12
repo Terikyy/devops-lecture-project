@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Terikyy/devops-lecture-project/internal/auth"
+	"github.com/Terikyy/devops-lecture-project/pkg/jwt"
 )
 
 func PlaceOrderHandler(w http.ResponseWriter, r *http.Request) {
@@ -28,8 +28,8 @@ func PlaceOrderHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokenString := auth.ExtractTokenFromHeader(authHeader)
-	if !auth.VerifyToken(tokenString) {
+	tokenString := jwt.ExtractBearerToken(authHeader)
+	if !jwt.VerifyToken(tokenString) {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte(`{"error":"Invalid token"}`))
 		return
