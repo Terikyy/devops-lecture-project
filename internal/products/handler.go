@@ -1,52 +1,40 @@
 package products
 
 import (
-	"encoding/json"
 	"net/http"
 	"strconv"
+
+	"github.com/Terikyy/devops-lecture-project/pkg/httputil"
 )
 
 func ListHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		httputil.WriteError(w, http.StatusMethodNotAllowed, "Method Not Allowed")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	response, err := json.Marshal(GetProducts())
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(`{"error": "Internal Server Error"}`))
-		return
-	}
-	w.Write(response)
+	httputil.WriteJSON(w, http.StatusOK, GetProducts())
 }
 
 func DetailHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		httputil.WriteError(w, http.StatusMethodNotAllowed, "Method Not Allowed")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	idStr := r.PathValue("id")
 
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, `{"error":"Product ID has wrong format"}`, http.StatusBadRequest)
+		httputil.WriteError(w, http.StatusBadRequest, "Product ID has wrong format")
 		return
 	}
 
 	product := FindProductByID(id)
 	if product == nil {
-		http.Error(w, `{"error":"Product not found"}`, http.StatusNotFound)
+		httputil.WriteError(w, http.StatusNotFound, "Product not found")
 		return
 	}
 
-	resp, err := json.Marshal(product)
-	if err != nil {
-		http.Error(w, `{"error":"Internal Server Error"}`, http.StatusInternalServerError)
-		return
-	}
-	w.Write(resp)
+	httputil.WriteJSON(w, http.StatusOK, product)
 }

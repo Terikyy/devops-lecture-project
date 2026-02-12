@@ -1,44 +1,41 @@
 package auth
 
 import (
-	"fmt"
 	"net/http"
 
+	"github.com/Terikyy/devops-lecture-project/pkg/httputil"
 	"github.com/Terikyy/devops-lecture-project/pkg/jwt"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		httputil.WriteError(w, http.StatusMethodNotAllowed, "Method Not Allowed")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	username := r.FormValue("username")
 	password := r.FormValue("password")
+
 	// For simplicity, we'll use a hardcoded username and password
 	// This should be replaced with a proper authentication mechanism
 	if username == "user" && password == "pass" {
 		token, err := jwt.CreateToken(username)
 		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(`{"error": "Error generating the token"}`))
+			httputil.WriteError(w, http.StatusInternalServerError, "Error generating the token")
 			return
 		}
-		w.Write([]byte(fmt.Sprintf(`{"token": "%s"}`, token)))
+		httputil.WriteJSON(w, http.StatusOK, map[string]string{"token": token})
 	} else {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte(`{"error": "Invalid credentials"}`))
+		httputil.WriteError(w, http.StatusUnauthorized, "Invalid credentials")
 	}
 }
 
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		httputil.WriteError(w, http.StatusMethodNotAllowed, "Method Not Allowed")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	// In this simple example, we'll just return a success message
-	w.Write([]byte(`{"message": "Logout successful"}`))
+	httputil.WriteJSON(w, http.StatusOK, map[string]string{"message": "Logout successful"})
 }

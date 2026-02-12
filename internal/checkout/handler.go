@@ -4,36 +4,32 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Terikyy/devops-lecture-project/pkg/httputil"
 	"github.com/Terikyy/devops-lecture-project/pkg/jwt"
 )
 
 func PlaceOrderHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		httputil.WriteError(w, http.StatusMethodNotAllowed, "Method Not Allowed")
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte(`{"error":"Missing Authorization header"}`))
+		httputil.WriteError(w, http.StatusUnauthorized, "Missing Authorization header")
 		return
 	}
 
 	if !strings.HasPrefix(authHeader, "Bearer ") {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte(`{"error":"Authorization header must use Bearer scheme"}`))
+		httputil.WriteError(w, http.StatusUnauthorized, "Authorization header must use Bearer scheme")
 		return
 	}
 
 	tokenString := jwt.ExtractBearerToken(authHeader)
 	if !jwt.VerifyToken(tokenString) {
-		w.WriteHeader(http.StatusUnauthorized)
-		w.Write([]byte(`{"error":"Invalid token"}`))
+		httputil.WriteError(w, http.StatusUnauthorized, "Invalid token")
 		return
 	}
 
-	w.Write([]byte(`{"message":"Order placed successfully"}`))
+	httputil.WriteJSON(w, http.StatusOK, map[string]string{"message": "Order placed successfully"})
 }
