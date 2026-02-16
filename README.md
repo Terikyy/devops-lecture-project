@@ -1,100 +1,57 @@
-# DevOps Lecture Project - Go Webshop
+# DevOps Lecture Project - Slipper Shop
 
-A modern e-commerce webshop built with Go, demonstrating DevOps principles and best practices throughout its development lifecycle. This project serves as the practical foundation for the course "Introduction to DevOps, Continuous Delivery Tools and Mindset" (T3INF4902) at DHBW Stuttgart.
+An e-commerce webshop specializing in novelty slippers, built with Go to demonstrate DevOps principles and best practices. This project serves as the practical foundation for the course "Introduction to DevOps, Continuous Delivery Tools and Mindset" (T3INF4902) at DHBW Stuttgart.
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Project Structure](#project-structure)
+- [About the Shop](#about-the-shop)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [API Endpoints](#api-endpoints)
 - [DevOps Journey](#devops-journey)
 - [Team](#team)
+- [Branching Strategy](#branching-strategy)
 - [Technology Stack](#technology-stack)
 
-## Overview
+## About the Shop
 
-This webshop application specializes in selling novelty slippers and serves as a hands-on project to implement a complete DevOps pipeline from code to production. The project evolves throughout the semester, incorporating industry-standard tools and practices including containerization, CI/CD, Kubernetes orchestration, GitOps, Infrastructure as Code, observability, and security scanning.
+Our webshop offers a selection of fun novelty slippers:
+- Gary Slippers
+- Fish Slippers
+- Avocado Slippers
+- Croissant Slippers
+- Cat Slippers
 
-The application is built with Go's standard library following clean architecture principles, ensuring modularity, testability, and maintainability.
-
-## Project Structure
-
-The project follows Go's standard project layout conventions:
-
-```
-devops-lecture-project/
-├── cmd/
-│   └── main.go                 # Application entry point
-├── internal/                   # Private application code
-│   ├── auth/
-│   │   └── handler.go         # Authentication handlers
-│   ├── checkout/
-│   │   └── handler.go         # Order processing handlers
-│   └── products/
-│       ├── handler.go         # Product HTTP handlers
-│       ├── product.go         # Product domain models
-│       └── repository.go      # Product data access
-├── pkg/                       # Public reusable packages
-│   ├── httputil/
-│   │   └── response.go       # HTTP response helpers
-│   └── jwt/
-│       └── jwt.go            # JWT authentication utilities
-├── go.mod                     # Go module definition
-├── go.sum                     # Dependency checksums
-└── README.md
-```
-
-### Directory Explanation
-
-- **cmd/**: Contains the main application entry point and executable definitions
-- **internal/**: Houses private application code that cannot be imported by other projects
-- **pkg/**: Contains public packages that can be reused across projects
+Customers can browse products, authenticate, and place orders through a REST API.
 
 ## Features
 
-- **Product Management**: Browse and view detailed information about products
-- **Authentication System**: User login and logout functionality with JWT-based authentication
-- **Checkout Process**: Order placement and processing
-- **RESTful API**: Clean HTTP API following REST principles
-- **Modular Architecture**: Separation of concerns with clear package boundaries
+- Product catalog with detailed product information
+- User authentication with JWT
+- Order checkout functionality
+- RESTful API design
 
 ## Getting Started
 
 ### Prerequisites
 
 - Go 1.25.7 or higher
-- Git
 
-### Installation
+### Running the Application
 
-1. Clone the repository:
 ```bash
+# Clone and navigate to the project
 git clone https://github.com/Terikyy/devops-lecture-project.git
 cd devops-lecture-project
-```
 
-2. Install dependencies:
-```bash
+# Install dependencies
 go mod tidy
-```
 
-3. Run the application:
-```bash
+# Run the application
 go run cmd/main.go
 ```
 
 The server will start on `http://localhost:8080`.
-
-### Building
-
-To create a production binary:
-
-```bash
-go build -o webshop cmd/main.go
-./webshop
-```
 
 ## API Endpoints
 
@@ -141,64 +98,48 @@ This project serves as the foundation for implementing a comprehensive DevOps pi
 
 ## Team
 
-This project is developed as part of the DevOps course at DHBW Stuttgart:
-
-- **Kevin Kienle** - 5409606
-- **Ole Schmid** - 5070696
-- **Erik von Heyden** - 8720832
+- Kevin Kienle
+- Ole Schmid
+- Erik von Heyden
 
 **Course**: T3INF4902 - Introduction to DevOps, Continuous Delivery Tools and Mindset
 **Instructor**: Robin Lieb
 **Institution**: DHBW Stuttgart
-**Semester**: Winter 2025/2026
+**Semester**: Summer 2026
 
-## Technology Stack
+## Branching Strategy
 
-- **Language**: Go 1.25.7
-- **Authentication**: JWT (golang-jwt/jwt/v5)
-- **HTTP Router**: Go standard library `net/http`
-- **Version Control**: Git & GitHub
-- **Future Technologies**: Docker, Kubernetes, GitHub Actions, Argo CD, Terraform, Grafana Stack
+We follow GitHub Flow to support continuous delivery:
+- `main` branch is always deployable
+- Feature branches are created from `main` for new work
+- Pull requests are used for code review and discussion
+- After approval, changes are merged back to `main`
+- Small, frequent commits over large changes
 
-## Development Principles
-
-This project adheres to key DevOps principles:
-
-- **Flow Principle**: Optimize the entire development pipeline, not just individual stages
-- **Feedback Principle**: Fast feedback loops through automated testing and monitoring
-- **Continuous Learning**: Iterative improvements based on metrics and retrospectives
-- **Small Batch Sizes**: Frequent, small commits over large, infrequent changes
-- **Trunk-Based Development**: Short-lived feature branches with regular integration
-
-## Contributing
-
-This is an educational project. Contributions are managed through pull requests with mandatory code review. All changes must follow conventional commit messages and semantic versioning principles.
+This approach enables fast feedback cycles and reduces merge conflicts, aligning with DevOps principles.
 
 ### Commit Message Format
 
+We use Conventional Commits for clear and consistent commit messages:
+
 ```
 <type>(<scope>): <description>
-
-[optional body]
-
-[optional footer]
 ```
 
-**Types**: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `ci`
+**Common types:**
+- `feat` - New features
+- `fix` - Bug fixes
+- `docs` - Documentation changes
+- `chore` - Maintenance tasks
+- `refactor` - Code refactoring
+- `test` - Adding or updating tests
+- `ci` - CI/CD pipeline changes
 
-### Branching Strategy
+Example: `feat(products): add new slipper category`
 
-We follow GitHub Flow:
-- Main branch is always deployable
-- Feature branches are created from main
-- Pull requests require approval before merging
-- Automated tests must pass before merge
+## Technology Stack
 
-## License
-
-This project is created for educational purposes as part of the DevOps curriculum at DHBW Stuttgart.
-
----
-
-**Repository**: https://github.com/Terikyy/devops-lecture-project
-**Last Updated**: February 2026
+- Go 1.25.7
+- JWT Authentication (golang-jwt/jwt/v5)
+- Git & GitHub
+- Future: Docker, Kubernetes, GitHub Actions, Argo CD, Terraform, Grafana Stack
