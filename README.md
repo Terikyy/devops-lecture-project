@@ -7,11 +7,13 @@ An e-commerce webshop specializing in novelty slippers, built with Go to demonst
 - [About the Shop](#about-the-shop)
 - [Features](#features)
 - [Getting Started](#getting-started)
+- [Running with Docker](#running-with-docker)
 - [API Endpoints](#api-endpoints)
 - [DevOps Journey](#devops-journey)
 - [Team](#team)
 - [Branching Strategy](#branching-strategy)
 - [Technology Stack](#technology-stack)
+
 
 ## About the Shop
 
@@ -52,6 +54,30 @@ go run cmd/main.go
 ```
 
 The server will start on `http://localhost:8080`.
+
+## Running with Docker
+
+### Pull and Run from Docker Hub
+
+```bash
+docker pull oleschmid/slipper-shop-api:0.1
+docker run -p 8080:8080 oleschmid/slipper-shop-api:0.1
+```
+
+### Build Locally
+
+```bash
+# Build the Docker image
+docker build -t slipper-shop .
+
+# Run the container
+docker run -p 8080:8080 slipper-shop
+```
+
+The application will be available at `http://localhost:8080`.
+
+**Docker Hub**:
+- https://hub.docker.com/r/oleschmid/slipper-shop-api
 
 ## API Endpoints
 
@@ -142,4 +168,5 @@ Example: `feat(products): add new slipper category`
 - Go 1.25.7
 - JWT Authentication (golang-jwt/jwt/v5)
 - Git & GitHub
-- Future: Docker, Kubernetes, GitHub Actions, Argo CD, Terraform, Grafana Stack
+- Docker
+- Future: Kubernetes, GitHub Actions, Argo CD, Terraform, Grafana Stack
