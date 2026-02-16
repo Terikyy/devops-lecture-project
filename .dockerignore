@@ -1,0 +1,25 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Temp files
+tmp*
+*.log
+
+# Build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
