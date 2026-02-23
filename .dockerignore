@@ -23,3 +23,6 @@ tmp*
 *.dll
 *.so
 *.dylib
+
+# Makefile build output
+bin/

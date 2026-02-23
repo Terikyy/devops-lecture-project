@@ -6,10 +6,10 @@ test:
 	cd $(service) && $(GO_CMD) test -v ./...
 
 build:
-	cd $(service) && $(GO_CMD) build -o ../main ./cmd/main.go
+	cd $(service) && $(GO_CMD) build -o ../bin/$(service) ./cmd/main.go
 
 docker-build:
-	docker build --build-arg SERVICE=$(service) -t $(service) .
+	docker build --build-arg SERVICE=$(service) -t $(service):latest .
 
 clean:
-	rm -f main
+	rm -rf bin/
