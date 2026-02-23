@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Terikyy/devops-lecture-project/pkg/httputil"
+	"github.com/Terikyy/devops-lecture-project/product-service/pkg/httputil"
 )
 
 func ListHandler(w http.ResponseWriter, r *http.Request) {

@@ -3,8 +3,8 @@ package auth
 import (
 	"net/http"
 
-	"github.com/Terikyy/devops-lecture-project/pkg/httputil"
-	"github.com/Terikyy/devops-lecture-project/pkg/jwt"
+	"github.com/Terikyy/devops-lecture-project/auth-service/pkg/httputil"
+	"github.com/Terikyy/devops-lecture-project/auth-service/pkg/jwt"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {

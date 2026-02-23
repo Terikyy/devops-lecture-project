@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Terikyy/devops-lecture-project/pkg/httputil"
-	"github.com/Terikyy/devops-lecture-project/pkg/jwt"
+	"github.com/Terikyy/devops-lecture-project/checkout-service/pkg/httputil"
+	"github.com/Terikyy/devops-lecture-project/checkout-service/pkg/jwt"
 )
 
 func PlaceOrderHandler(w http.ResponseWriter, r *http.Request) {
