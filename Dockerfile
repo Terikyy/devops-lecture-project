@@ -1,14 +1,15 @@
 # Build stage
 FROM golang:1.25.7 AS builder
 
+ARG SERVICE
+
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY ${SERVICE}/ .
+
 RUN go mod download
 
-COPY . .
-
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o slipper-shop ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /binary ./cmd/main.go
 
 # Runtime stage
 FROM alpine:latest
@@ -17,8 +18,6 @@ RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
 
-COPY --from=builder /app/slipper-shop .
+COPY --from=builder /binary .
 
-EXPOSE 8080
-
-CMD ["./slipper-shop"]
+CMD ["./binary"]
