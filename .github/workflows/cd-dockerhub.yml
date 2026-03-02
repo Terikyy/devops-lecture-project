@@ -1,0 +1,97 @@
+name: cd-dockerhub
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[A-Za-z0-9]+-service-[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.tag.outputs.version }}
+      services: ${{ steps.tag.outputs.services }}
+    steps:
+      - name: Resolve version and target services
+        id: tag
+        shell: bash
+        run: |
+          TAG="$(echo ${{ github.ref }} | cut -d '/' -f 3)"
+
+          if echo "$TAG" | grep -Eq '^[A-Za-z0-9]+-service-[0-9]+\.[0-9]+\.[0-9]+$'; then
+            SERVICE="$(echo "$TAG" | cut -d '-' -f 1-2)"
+            VERSION="$(echo "$TAG" | cut -d '-' -f 3)"
+            SERVICES="[\"${SERVICE}\"]"
+          elif echo "$TAG" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            VERSION="$TAG"
+            SERVICES='["auth-service","checkout-service","product-service"]'
+          else
+            echo "Unsupported tag format: ${TAG}"
+            exit 1
+          fi
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "services=${SERVICES}" >> "$GITHUB_OUTPUT"
+
+  docker:
+    needs: resolve
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_PREFIX: slipper-shop
+    strategy:
+      fail-fast: false
+      matrix:
+        service: ${{ fromJson(needs.resolve.outputs.services) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate Docker Hub secrets
+        shell: bash
+        run: |
+          if [[ -z "${{ secrets.DOCKERHUB_USERNAME }}" || -z "${{ secrets.DOCKERHUB_TOKEN }}" ]]; then
+            echo "DOCKERHUB_USERNAME and DOCKERHUB_TOKEN must be set as repository secrets"
+            exit 1
+          fi
+
+          if [[ -z "${{ secrets.DOCKERHUB_NAMESPACE }}" && -z "${{ secrets.DOCKERHUB_USERNAME }}" ]]; then
+            echo "Set DOCKERHUB_NAMESPACE or DOCKERHUB_USERNAME as repository secret"
+            exit 1
+          fi
+
+      - name: Prepare image tags
+        id: image_tags
+        shell: bash
+        run: |
+          NAMESPACE="${{ secrets.DOCKERHUB_NAMESPACE }}"
+          if [[ -z "$NAMESPACE" ]]; then
+            NAMESPACE="${{ secrets.DOCKERHUB_USERNAME }}"
+          fi
+
+          IMAGE_NAME="${IMAGE_PREFIX}-${{ matrix.service }}"
+          IMAGE_NAME="${IMAGE_NAME//_/-}"
+
+          echo "version_tag=${NAMESPACE}/${IMAGE_NAME}:${{ needs.resolve.outputs.version }}" >> "$GITHUB_OUTPUT"
+          echo "latest_tag=${NAMESPACE}/${IMAGE_NAME}:latest" >> "$GITHUB_OUTPUT"
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          build-args: |
+            SERVICE=${{ matrix.service }}
+          push: true
+          tags: |
+            ${{ steps.image_tags.outputs.version_tag }}
+            ${{ steps.image_tags.outputs.latest_tag }}
