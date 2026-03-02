@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// WriteJSON writes a JSON response with the given status code and data.
 func WriteJSON(w http.ResponseWriter, status int, data interface{}) {
 	w.Header().Set("Content-Type", "application/json")
 	response, err := json.Marshal(data)
