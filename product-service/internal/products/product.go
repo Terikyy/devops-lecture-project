@@ -12,6 +12,7 @@ var products = []Product{
 	{ID: 3, Name: "Avocado Slippers", Price: 29.99},
 	{ID: 4, Name: "Croissant Slippers", Price: 19.99},
 	{ID: 5, Name: "Cat Slippers", Price: 19.99},
+	{ID: 6, Name: "Dog Slippers", Price: 19.99},
 }
 
 func GetProducts() []Product {
