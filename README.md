@@ -57,27 +57,28 @@ The server will start on `http://localhost:8080`.
 
 ## Running with Docker
 
-### Pull and Run from Docker Hub
+### Pull from Docker Hub
 
 ```bash
-docker pull oleschmid/slipper-shop-api:0.1
-docker run -p 8080:8080 oleschmid/slipper-shop-api:0.1
+docker pull oleschmid/slipper-shop-auth-service:latest
+docker pull oleschmid/slipper-shop-product-service:latest
+docker pull oleschmid/slipper-shop-checkout-service:latest
 ```
 
 ### Build Locally
 
 ```bash
-# Build the Docker image
-docker build -t slipper-shop .
+# Build one service image
+docker build --build-arg SERVICE=auth-service -t slipper-shop-auth-service:local .
 
-# Run the container
-docker run -p 8080:8080 slipper-shop
+# Run one service image
+docker run -p 8080:8080 slipper-shop-auth-service:local
 ```
 
 The application will be available at `http://localhost:8080`.
 
 **Docker Hub**:
-- https://hub.docker.com/r/oleschmid/slipper-shop-api
+- https://hub.docker.com/u/oleschmid
 
 ## API Endpoints
 
