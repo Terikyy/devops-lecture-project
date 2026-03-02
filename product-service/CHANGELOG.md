@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/Terikyy/devops-lecture-project/compare/product-service-1.1.0...product-service-1.1.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* add comments to httputil to test release-please ([#13](https://github.com/Terikyy/devops-lecture-project/issues/13)) ([2fa90cb](https://github.com/Terikyy/devops-lecture-project/commit/2fa90cbfc835f09cf549da67c4b84c1fdf931f56))
+
 ## [1.1.0](https://github.com/Terikyy/devops-lecture-project/compare/product-service-1.0.0...product-service-1.1.0) (2026-03-02)
 
 
