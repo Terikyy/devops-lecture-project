@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/Terikyy/devops-lecture-project/compare/checkout-service-1.0.1...checkout-service-1.0.2) (2026-03-09)
+
+
+### Bug Fixes
+
+* add comments to httputil to initiate release-please to get new multi arch images on dockerhub ([#17](https://github.com/Terikyy/devops-lecture-project/issues/17)) ([a306ba0](https://github.com/Terikyy/devops-lecture-project/commit/a306ba01876f85a8c8f3e4b0971ff2f4d20c7ece))
+
 ## [1.0.1](https://github.com/Terikyy/devops-lecture-project/compare/checkout-service-1.0.0...checkout-service-1.0.1) (2026-03-02)
 
 
