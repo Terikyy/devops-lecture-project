@@ -9,6 +9,7 @@ import (
 
 var secretKey = []byte("secret-key")
 
+// VerifyToken verifies the given JWT token string and returns true if it's valid.
 func VerifyToken(tokenString string) bool {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {

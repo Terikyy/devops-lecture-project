@@ -94,6 +94,8 @@ jobs:
             SERVICE=${{ matrix.service }}
           push: true
           platforms: linux/amd64,linux/arm64
+          provenance: false
+          sbom: false
           tags: |
             ${{ steps.image_tags.outputs.version_tag }}
             ${{ steps.image_tags.outputs.latest_tag }}
