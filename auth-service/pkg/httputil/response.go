@@ -18,6 +18,7 @@ func WriteJSON(w http.ResponseWriter, status int, data interface{}) {
 	w.Write(response)
 }
 
+// WriteError writes a JSON error response with the given status code and message.
 func WriteError(w http.ResponseWriter, status int, message string) {
 	WriteJSON(w, status, map[string]string{"error": message})
 }
