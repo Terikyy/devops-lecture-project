@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/Terikyy/devops-lecture-project/compare/checkout-service-1.0.2...checkout-service-1.0.3) (2026-03-09)
+
+
+### Bug Fixes
+
+* changes in each service (remove comments) to trigger release-please ([#21](https://github.com/Terikyy/devops-lecture-project/issues/21)) ([47a48f7](https://github.com/Terikyy/devops-lecture-project/commit/47a48f7954ad56a4bd8302d34684185fd090910d))
+
 ## [1.0.2](https://github.com/Terikyy/devops-lecture-project/compare/checkout-service-1.0.1...checkout-service-1.0.2) (2026-03-09)
 
 
