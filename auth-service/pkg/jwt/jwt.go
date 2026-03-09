@@ -8,7 +8,6 @@ import (
 
 var secretKey = []byte("secret-key")
 
-// CreateToken creates a JWT token string for the given username.
 func CreateToken(username string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
