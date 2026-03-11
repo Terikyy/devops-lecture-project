@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: slipper-shop-checkout-service
+  name: checkout-service
   namespace: argocd
 spec:
   project: default
@@ -11,7 +11,7 @@ spec:
     path: kubernetes/checkout-service
   destination:
     server: https://kubernetes.default.svc
-    namespace: slipper-shop-checkout-service
+    namespace: checkout-service
   syncPolicy:
     automated:
       enabled: true
