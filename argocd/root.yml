@@ -1,19 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: auth-service
+  name: root
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/Terikyy/devops-lecture-project
-    targetRevision: HEAD
-    path: kubernetes/auth-service
+    targetRevision: bootstrap-argo
+    path: argocd/applicationsets
   destination:
     server: https://kubernetes.default.svc
-    namespace: auth-service
+    namespace: argocd
   syncPolicy:
     automated:
-      enabled: true
-    syncOptions:
-      - CreateNamespace=true
+      prune: true
+      selfHeal: true

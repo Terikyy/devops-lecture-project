@@ -86,10 +86,33 @@ The application will be available at `http://localhost:8080`.
 Bootstrap ArgoCD once by applying the root app:
 
 ```bash
-kubectl apply -f argocd/bootstrap/apps.yml
+kubectl apply -f argocd/root.yml
 ```
 
-ArgoCD will then automatically manage all applications in `argocd/apps/`.
+ArgoCD will then automatically manage everything from there:
+
+1. The `root` Application syncs `argocd/applicationsets/`
+2. Two ApplicationSets are deployed — one for the slipper shop services, one for monitoring
+3. Each ApplicationSet uses a Git directory generator to auto-discover and deploy services from the corresponding `kubernetes/` subdirectory
+
+**Repository structure:**
+
+```
+argocd/
+  root.yml                          # Apply this once manually
+  applicationsets/
+    slipper-shop-services.yml       # Auto-discovers kubernetes/slipper-shop-services/*
+    monitoring.yml                  # Auto-discovers kubernetes/monitoring/*
+
+kubernetes/
+  slipper-shop-services/            # One subdirectory per service
+    auth-service/
+    checkout-service/
+    product-service/
+  monitoring/                       # Monitoring stack manifests go here
+```
+
+Adding a new service only requires creating a new subdirectory under `kubernetes/slipper-shop-services/` — no ArgoCD manifest needed.
 
 ## API Endpoints
 

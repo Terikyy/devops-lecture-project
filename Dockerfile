@@ -5,7 +5,7 @@ ARG SERVICE
 
 WORKDIR /app
 
-COPY ${SERVICE}/ .
+COPY services/${SERVICE}/ .
 
 RUN go mod download
 
