@@ -7,7 +7,7 @@ spec:
   generators:
     - git:
         repoURL: https://github.com/Terikyy/devops-lecture-project
-        revision: bootstrap-argo
+        revision: HEAD
         directories:
           - path: kubernetes/monitoring/*
   template:
@@ -17,7 +17,7 @@ spec:
       project: default
       source:
         repoURL: https://github.com/Terikyy/devops-lecture-project
-        targetRevision: bootstrap-argo
+        targetRevision: HEAD
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
