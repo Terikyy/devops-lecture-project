@@ -8,6 +8,7 @@ An e-commerce webshop specializing in novelty slippers, built with Go to demonst
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Running with Docker](#running-with-docker)
+- [Deploying with ArgoCD](#deploying-with-argocd)
 - [API Endpoints](#api-endpoints)
 - [DevOps Journey](#devops-journey)
 - [Team](#team)
@@ -79,6 +80,16 @@ The application will be available at `http://localhost:8080`.
 
 **Docker Hub**:
 - https://hub.docker.com/u/oleschmid
+
+## Deploying with ArgoCD
+
+Bootstrap ArgoCD once by applying the root app:
+
+```bash
+kubectl apply -f argocd/bootstrap/apps.yml
+```
+
+ArgoCD will then automatically manage all applications in `argocd/apps/`.
 
 ## API Endpoints
 
