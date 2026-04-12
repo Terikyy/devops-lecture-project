@@ -70,7 +70,7 @@ dashboards:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "Prometheus"
               },
               "fieldConfig": {
                 "defaults": {
