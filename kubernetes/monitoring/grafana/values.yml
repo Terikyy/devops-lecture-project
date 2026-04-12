@@ -106,6 +106,47 @@ dashboards:
               ],
               "title": "Cluster CPU Usage",
               "type": "stat"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "Prometheus"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "cores",
+                  "min": 0
+                },
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 10,
+                "w": 24,
+                "x": 0,
+                "y": 8
+              },
+              "id": 2,
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              },
+              "targets": [
+                {
+                  "expr": "sum by (namespace, pod) (rate(container_cpu_usage_seconds_total{container!=\"\", image!=\"\", namespace=~\"auth-service|product-service|checkout-service\", pod=~\"(auth-service|product-service|checkout-service)-.*\"}[5m]))",
+                  "legendFormat": "{{namespace}} / {{pod}}",
+                  "refId": "A"
+                }
+              ],
+              "title": "Service Instance CPU (auth/product/checkout)",
+              "type": "timeseries"
             }
           ],
           "schemaVersion": 39,
