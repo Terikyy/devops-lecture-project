@@ -1,0 +1,112 @@
+persistence:
+  enabled: true
+  size: 10Gi
+
+adminUser: admin
+adminPassword: admin
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://lgtm-prometheus-server.monitoring.svc.cluster.local
+        access: proxy
+        isDefault: true
+        jsonData:
+          timeInterval: 15s
+      - name: Loki
+        type: loki
+        url: http://lgtm-loki.monitoring.svc.cluster.local:3100
+        access: proxy
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: default
+        orgId: 1
+        folder: General
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    cluster-cpu-overview:
+      json: |
+        {
+          "annotations": {
+            "list": [
+              {
+                "builtIn": 1,
+                "datasource": {
+                  "type": "grafana",
+                  "uid": "-- Grafana --"
+                },
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+              }
+            ]
+          },
+          "editable": true,
+          "panels": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "percentunit",
+                  "min": 0,
+                  "max": 1
+                },
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 8,
+                "w": 24,
+                "x": 0,
+                "y": 0
+              },
+              "id": 1,
+              "options": {
+                "orientation": "auto",
+                "reduceOptions": {
+                  "calcs": [
+                    "lastNotNull"
+                  ],
+                  "fields": "",
+                  "values": false
+                }
+              },
+              "targets": [
+                {
+                  "expr": "sum(rate(node_cpu_seconds_total{mode!=\"idle\"}[5m])) / sum(rate(node_cpu_seconds_total[5m]))",
+                  "legendFormat": "cluster",
+                  "refId": "A"
+                }
+              ],
+              "title": "Cluster CPU Usage",
+              "type": "stat"
+            }
+          ],
+          "schemaVersion": 39,
+          "style": "dark",
+          "templating": {
+            "list": []
+          },
+          "time": {
+            "from": "now-15m",
+            "to": "now"
+          },
+          "title": "Cluster CPU Overview",
+          "version": 1
+        }
