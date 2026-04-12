@@ -114,14 +114,15 @@ dashboards:
               },
               "fieldConfig": {
                 "defaults": {
-                  "unit": "cores",
-                  "min": 0
+                  "unit": "percent",
+                  "min": 0,
+                  "max": 100
                 },
                 "overrides": []
               },
               "gridPos": {
-                "h": 10,
-                "w": 24,
+                "h": 8,
+                "w": 8,
                 "x": 0,
                 "y": 8
               },
@@ -140,12 +141,96 @@ dashboards:
               },
               "targets": [
                 {
-                  "expr": "sum by (namespace, pod) (rate(container_cpu_usage_seconds_total{container!=\"\", image!=\"\", namespace=~\"auth-service|product-service|checkout-service\", pod=~\"(auth-service|product-service|checkout-service)-.*\"}[5m]))",
-                  "legendFormat": "{{namespace}} / {{pod}}",
+                  "expr": "100 * sum by (pod) (rate(container_cpu_usage_seconds_total{namespace=\"auth-service\", pod=~\"auth-service-.*\"}[5m]))",
+                  "legendFormat": "{{pod}}",
                   "refId": "A"
                 }
               ],
-              "title": "Service Instance CPU (auth/product/checkout)",
+              "title": "Auth Service CPU per Instance (%)",
+              "type": "timeseries"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "Prometheus"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "percent",
+                  "min": 0,
+                  "max": 100
+                },
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 8,
+                "y": 8
+              },
+              "id": 3,
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              },
+              "targets": [
+                {
+                  "expr": "100 * sum by (pod) (rate(container_cpu_usage_seconds_total{namespace=\"product-service\", pod=~\"product-service-.*\"}[5m]))",
+                  "legendFormat": "{{pod}}",
+                  "refId": "A"
+                }
+              ],
+              "title": "Product Service CPU per Instance (%)",
+              "type": "timeseries"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "Prometheus"
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "percent",
+                  "min": 0,
+                  "max": 100
+                },
+                "overrides": []
+              },
+              "gridPos": {
+                "h": 8,
+                "w": 8,
+                "x": 16,
+                "y": 8
+              },
+              "id": 4,
+              "options": {
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              },
+              "targets": [
+                {
+                  "expr": "100 * sum by (pod) (rate(container_cpu_usage_seconds_total{namespace=\"checkout-service\", pod=~\"checkout-service-.*\"}[5m]))",
+                  "legendFormat": "{{pod}}",
+                  "refId": "A"
+                }
+              ],
+              "title": "Checkout Service CPU per Instance (%)",
               "type": "timeseries"
             }
           ],
