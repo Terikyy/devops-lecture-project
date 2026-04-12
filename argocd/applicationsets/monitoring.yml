@@ -12,16 +12,18 @@ spec:
           - path: kubernetes/monitoring/*
   template:
     metadata:
-      name: 'monitoring-{{path.basename}}'
+      name: '{{path.basename}}-monitoring'
     spec:
       project: default
       source:
         repoURL: https://github.com/Terikyy/devops-lecture-project
         targetRevision: HEAD
         path: '{{path}}'
+        directory:
+          include: app.yml
       destination:
         server: https://kubernetes.default.svc
-        namespace: 'monitoring-{{path.basename}}'
+        namespace: argocd
       syncPolicy:
         automated:
           prune: true
