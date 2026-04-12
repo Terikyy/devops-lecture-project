@@ -13,7 +13,7 @@ spec:
         valueFiles:
           - $values/kubernetes/monitoring/mimir/values.yml
     - repoURL: https://github.com/Terikyy/devops-lecture-project
-      targetRevision: LGTM-Stack
+      targetRevision: LGTM-stack
       ref: values
   destination:
     server: https://kubernetes.default.svc
