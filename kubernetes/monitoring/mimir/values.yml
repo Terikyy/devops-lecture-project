@@ -1,0 +1,10 @@
+mimir:
+  structuredConfig:
+    limits:
+      max_global_series_per_user: 150000
+
+minio:
+  enabled: true
+
+gateway:
+  enabled: true
