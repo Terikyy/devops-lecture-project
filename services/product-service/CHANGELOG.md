@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/Terikyy/devops-lecture-project/compare/product-service-1.1.3...product-service-1.1.4) (2026-04-13)
+
+
+### Bug Fixes
+
+* add comments to each service to trigger release please ([#27](https://github.com/Terikyy/devops-lecture-project/issues/27)) ([a8a9411](https://github.com/Terikyy/devops-lecture-project/commit/a8a94111721e4dd044bd2f3e062decf84b8c7e81))
+
 ## [1.1.3](https://github.com/Terikyy/devops-lecture-project/compare/product-service-1.1.2...product-service-1.1.3) (2026-03-09)
 
 
