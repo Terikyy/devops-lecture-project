@@ -1,0 +1,9 @@
+tempo:
+  metricsGenerator:
+    enabled: true
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+replicas: 2
