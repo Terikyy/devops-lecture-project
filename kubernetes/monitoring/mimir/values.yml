@@ -1,10 +1,73 @@
 mimir:
   structuredConfig:
     limits:
-      max_global_series_per_user: 150000
+      max_global_series_per_user: 50000
 
 minio:
   enabled: true
+  mode: standalone
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
 
 gateway:
   enabled: true
+  replicas: 1
+
+distributor:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+ingester:
+  replicas: 1
+  zoneAwareReplication:
+    enabled: false
+    resources:
+      requests:
+      cpu: 100m
+      memory: 256Mi
+
+store_gateway:
+  replicas: 1
+  zoneAwareReplication:
+    enabled: false
+    resources:
+      requests:
+      cpu: 100m
+      memory: 256Mi
+
+compactor:
+  replicas: 1
+  resources:
+    requests:
+    cpu: 50m
+    memory: 256Mi
+
+querier:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+query_frontend:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
+query_scheduler:
+  replicas: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
