@@ -20,7 +20,7 @@ resource "azapi_resource" "aks" {
 
   body = jsonencode({
     properties = {
-      kubernetesVersion = "1.34.3"
+      kubernetesVersion = var.kubernetes_version
       dnsPrefix         = "${var.aks_cluster_name}-dns"
 
       agentPoolProfiles = [

@@ -24,3 +24,9 @@ variable "vm_size" {
   description = "VM size for AKS nodes"
   type        = string
 }
+
+variable "kubernetes_version" {
+  description = "Kubernetes version (major.minor oder major.minor.patch)"
+  type        = string
+  default     = "1.34"
+}

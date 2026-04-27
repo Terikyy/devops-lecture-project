@@ -16,6 +16,6 @@ output "cluster_location" {
 output "argocd_url" {
   description = "The external URL indicating the ArgoCD Server Dashboard"
   # Fetch the automatically assigned remote load balancer IP from Azure, default to pending
-  value      = try("https://${data.kubernetes_service.argocd_server.status[0].load_balancer[0].ingress[0].ip}", "pending")
+  value = try("https://${data.kubernetes_service.argocd_server.status[0].load_balancer[0].ingress[0].ip}", "pending")
   depends_on = [helm_release.argocd]
 }

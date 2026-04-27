@@ -33,13 +33,7 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(local.cluster["certificate-authority-data"])
 }
 
-# Define the namespace for ArgoCD
-resource "kubernetes_namespace" "argocd" {
-  metadata {
-    name = "argocd"
-  }
-}
-
+# install argocd without explicitly managing namespace resource first
 # Workaround: Ensure Helm Repositories are initialized locally for other PCs
 # This avoids the "no cached repo found" error when Helm pulls Bitnami Redis dependencies
 resource "null_resource" "init_helm_repos" {
@@ -57,9 +51,10 @@ resource "helm_release" "argocd" {
   name       = "argocd"
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
-  version    = "7.0.0" # Fixed version for stability
-  namespace  = kubernetes_namespace.argocd.metadata[0].name
-  wait       = true # Ensures resources are up before next steps
+  version          = "7.0.0" # Fixed version for stability
+  namespace        = "argocd"
+  create_namespace = true
+  wait             = true # Ensures resources are up before next steps
 
   # Expose the server via an Azure LoadBalancer
   set {
@@ -77,7 +72,7 @@ resource "helm_release" "argocd" {
 data "kubernetes_service" "argocd_server" {
   metadata {
     name      = "argocd-server"
-    namespace = kubernetes_namespace.argocd.metadata[0].name
+    namespace = "argocd"
   }
   depends_on = [helm_release.argocd]
 }
