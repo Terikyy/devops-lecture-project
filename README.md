@@ -9,12 +9,12 @@ An e-commerce webshop specializing in novelty slippers, built with Go to demonst
 - [Getting Started](#getting-started)
 - [Running with Docker](#running-with-docker)
 - [Deploying with ArgoCD](#deploying-with-argocd)
+- [Infrastructure as Code](#infrastructure-as-code)
 - [API Endpoints](#api-endpoints)
 - [DevOps Journey](#devops-journey)
 - [Team](#team)
 - [Branching Strategy](#branching-strategy)
-- [Technology Stack](#technology-stack)
-
+- [Known Issues](#known-issues)
 
 ## About the Shop
 
@@ -29,32 +29,46 @@ Customers can browse products, authenticate, and place orders through a REST API
 
 ## Features
 
+- Microservices architecture (Auth, Checkout, Product)
 - Product catalog with detailed product information
 - User authentication with JWT
 - Order checkout functionality
-- RESTful API design
+- Automated releases and changelog generation via Release Please
+- Infrastructure as Code (OpenTofu/Terraform)
+- GitOps deployment with ArgoCD
+- Comprehensive observability (LGTM stack)
 
 ## Getting Started
 
 ### Prerequisites
 
 - Go 1.25.7 or higher
+- Make (optional, for convenience commands)
 
 ### Running the Application
+
+The project is structured as a monorepo containing multiple microservices. You can run or build each service individually.
 
 ```bash
 # Clone and navigate to the project
 git clone https://github.com/Terikyy/devops-lecture-project.git
 cd devops-lecture-project
 
-# Install dependencies
+# Example: Run the Auth Service
+cd services/auth-service
 go mod tidy
-
-# Run the application
 go run cmd/main.go
 ```
 
-The server will start on `http://localhost:8080`.
+Alternatively, you can use the provided `Makefile` from the root directory:
+
+```bash
+# Build a specific service
+make build service=auth-service
+
+# Run tests for a service
+make test service=checkout-service
+```
 
 ## Running with Docker
 
@@ -114,6 +128,10 @@ kubernetes/
 
 Adding a new service only requires creating a new subdirectory under `kubernetes/slipper-shop-services/` — no ArgoCD manifest needed.
 
+## Infrastructure as Code
+
+The cloud infrastructure (Azure Kubernetes Service, Resource Groups, and initially bootstrapping ArgoCD) is managed via OpenTofu (Terraform). Detailed instructions for initializing and deploying the Azure resources can be found in the [Infrastructure README](infrastructure/README.md).
+
 ## API Endpoints
 
 ### Authentication
@@ -153,9 +171,9 @@ This project serves as the foundation for implementing a comprehensive DevOps pi
 | 3 | CI/CD & Testing | Implement GitHub Actions pipelines |
 | 4 | Container Orchestration | Deploy to local Kubernetes cluster |
 | 5 | GitOps & Progressive Delivery | Implement GitOps with Argo CD |
-| 6 | Infrastructure as Code | Provision infrastructure with Terraform/OpenTofu |
-| 7 | Observability & Resilience | Integrate LGTM Stack (Loki, Grafana, Tempo, Mimir) |
-| 8 | DevSecOps & Platform Engineering | Security scanning, SAST, and platform engineering practices |
+| 6 | Observability & Resilience | Integrate LGTM Stack (Loki, Grafana, Tempo, Mimir) |
+| 7 | DevSecOps & Platform Engineering | Security scanning, SAST, and platform engineering practices |
+| 8 | Infrastructure as Code | Provision infrastructure with Terraform/OpenTofu |
 
 ## Team
 
@@ -198,10 +216,14 @@ We use Conventional Commits for clear and consistent commit messages:
 
 Example: `feat(products): add new slipper category`
 
-## Technology Stack
+### Automated Releases & Versioning
 
-- Go 1.25.7
-- JWT Authentication (golang-jwt/jwt/v5)
-- Git & GitHub
-- Docker
-- Future: Kubernetes, GitHub Actions, Argo CD, Terraform, Grafana Stack
+This repository leverages Google's **Release Please** to automate semantic versioning and changelog generation. 
+Based on the Conventional Commits, Release Please automatically:
+- Bumps semantic versions for our microservices (under `services/`)
+- Generates and updates `CHANGELOG.md` files
+- Creates Github Releases
+
+## Known Issues
+
+The application runs seamlessly in local environments. However, when deploying the infrastructure to Azure using OpenTofu on an Azure for Students subscription, individual pods might not start successfully. This is a known issue caused by insufficient resource limits available on the student plan.
