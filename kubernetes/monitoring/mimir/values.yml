@@ -11,9 +11,9 @@ minio:
     requests:
       cpu: 50m
       memory: 128Mi
-      limits:
-        cpu: 200m
-        memory: 256Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
 
 gateway:
   enabled: true
@@ -30,8 +30,8 @@ ingester:
   replicas: 1
   zoneAwareReplication:
     enabled: false
-    resources:
-      requests:
+  resources:
+    requests:
       cpu: 100m
       memory: 256Mi
 
@@ -39,8 +39,8 @@ store_gateway:
   replicas: 1
   zoneAwareReplication:
     enabled: false
-    resources:
-      requests:
+  resources:
+    requests:
       cpu: 100m
       memory: 256Mi
 
@@ -48,8 +48,8 @@ compactor:
   replicas: 1
   resources:
     requests:
-    cpu: 50m
-    memory: 256Mi
+      cpu: 50m
+      memory: 256Mi
 
 querier:
   replicas: 1
